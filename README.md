@@ -15,5 +15,4 @@
 -[] Não deve ser possível buscar extrato em uma conta não existente
 -[] Não deve ser possível fazer saque em uma conta não existente
 -[] Não deve ser possível fazer excluir uma conta não existente
--[] Deve ser possível atualizar dados da conta do cliente
--[] Deve ser possível deletar uma conta
+-[] Não deve ser possível fazer saque quando saldo for insuficiente
