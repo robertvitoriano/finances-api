@@ -17,35 +17,25 @@ app.post('/account',(request, response)=>{
 
     const  { cpf, name } = request.body
     
-    costumers.push({
-        cpf,
-        name,
-        id: uuidv4(),
-        statetement:[]
-    })
-
   const  costumerAlreadyExists = costumers.some((registeredCostumer)=>registeredCostumer.cpf ===cpf)
+  if(costumerAlreadyExists) return response.status(422).json({error:'CPF already registered'})
 
-    if(costumerAlreadyExists) return response.status(422).json({error:'CPF already registered'})
-
-    return response.status(201).json({
-        cpf,
-        name,
-        id,
-        statetement:[]
-    })
+  costumers.push({
+    cpf,
+    name,
+    id: uuidv4(),
+    statetement:[]
 })
-app.put('/courses/:id',(request, response)=>{
+  const createdCostumer = costumers.find((registeredCostumer)=>registeredCostumer.cpf ===cpf)
 
-    return response.json(['curso 6', 'curso 2', 'curso 3', 'curso 4'])
+    return response.status(201).json(createdCostumer)
 })
-app.patch('/courses/:id',(request, response)=>{
+app.get('/statement/:cpf',(request, response)=>{
+    const {cpf} = request.params
 
-    return response.json(['curso 6', 'curso 2', 'curso 3', 'curso 4'])
-})
-app.delete('/courses/:id',(request, response)=>{
+    const costumer = costumers.find((costumer)=>costumer.cpf===cpf)
 
-    return response.json(['curso 1', 'curso 2', 'curso 4'])
+    return response.status(200).json(costumer.statetement)
 })
 
 app.listen(3001,()=>{
