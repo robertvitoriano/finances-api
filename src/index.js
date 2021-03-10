@@ -1,15 +1,39 @@
 const express = require('express');
+const {v4: uuidv4} = require('uuid')
 
 const app = express();
 
+const costumers = []
 app.use(express.json())
-app.get('/courses',(request, response)=>{
 
-    return response.json(['curso 1', 'curso 2', 'curso 3'])
-})
-app.post('/courses',(request, response)=>{
+/**
+ * cpf -string
+ * name - string
+ * id - uuid
+ * statement []
+ * 
+ */
+app.post('/account',(request, response)=>{
 
-    return response.json(['curso 1', 'curso 2', 'curso 3', 'curso 4'])
+    const  { cpf, name } = request.body
+    
+    costumers.push({
+        cpf,
+        name,
+        id: uuidv4(),
+        statetement:[]
+    })
+
+  const  costumerAlreadyExists = costumers.some((registeredCostumer)=>registeredCostumer.cpf ===cpf)
+
+    if(costumerAlreadyExists) return response.status(422).json({error:'CPF already registered'})
+
+    return response.status(201).json({
+        cpf,
+        name,
+        id,
+        statetement:[]
+    })
 })
 app.put('/courses/:id',(request, response)=>{
 
