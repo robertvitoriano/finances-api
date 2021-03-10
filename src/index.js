@@ -34,6 +34,8 @@ app.get('/statement/:cpf',(request, response)=>{
     const {cpf} = request.params
 
     const costumer = costumers.find((costumer)=>costumer.cpf===cpf)
+    
+    if(!costumer) response.status(400).json({error:'costumer not found'})
 
     return response.status(200).json(costumer.statetement)
 })
