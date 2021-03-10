@@ -16,7 +16,7 @@ const verifyIfExistsAccountCPF = (request, response, next) =>{
     if(!costumer) return response.status(422).json({error:'Costumer not found'})
 
     request.costumer = costumer
-    
+
     next()
 }
 app.post('/account',(request, response)=>{
@@ -30,7 +30,7 @@ app.post('/account',(request, response)=>{
     cpf,
     name,
     id: uuidv4(),
-    statetement:[]
+    statement:[]
 })
   const createdCostumer = costumers.find((registeredCostumer)=>registeredCostumer.cpf ===cpf)
 
@@ -39,9 +39,22 @@ app.post('/account',(request, response)=>{
 app.get('/statement',verifyIfExistsAccountCPF,(request, response)=>{
     const costumer = request.costumer
 
-    return response.status(200).json(costumer.statetement)
+    return response.status(200).json(costumer.statement)
 })
+app.post('/deposit',verifyIfExistsAccountCPF,(request, response)=>{
+    const { description, amount } = request.body
+    const costumer= request.costumer
 
+    const statementOperation = {
+        description,
+        amount,
+        created_at: new Date(),
+        type:"credit"
+    }
+    costumer.statement.push(statementOperation)
+
+    return response.status(200).json(costumer)
+})
 app.listen(3001,()=>{
     console.log('My app is running')
 })
