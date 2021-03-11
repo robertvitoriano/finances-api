@@ -110,9 +110,8 @@ app.put('/account',verifyIfExistsAccountCPF,(request, response)=>{
     const {name} = request.body
     const {costumer}= request
     costumer.name = name
-    const {date} = request.query
   
-    return response.status(200).json(costumer)
+    return response.status(201).json(costumer)
 })
 app.listen(3001,()=>{
     console.log('My app is running')
