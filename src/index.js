@@ -19,6 +19,20 @@ const verifyIfExistsAccountCPF = (request, response, next) =>{
 
     next()
 }
+
+const getBalance = (statement) =>{
+    statement.reduce((accumulator, statementElement)=>{
+
+        switch(statementElement.type ){
+            case 'credit':
+              return accumulator + statementElement.amount
+            case 'debit':
+              return accumulator - statementElement.amount
+        }
+    }, 0 )
+
+
+}
 app.post('/account',(request, response)=>{
 
     const  { cpf, name } = request.body
@@ -54,6 +68,18 @@ app.post('/deposit',verifyIfExistsAccountCPF,(request, response)=>{
     costumer.statement.push(statementOperation)
 
     return response.status(200).json(costumer)
+})
+
+app.post('/withdraw',verifyIfExistsAccountCPF,(request, response)=>{
+    
+    const {amount} = request.body
+
+    const {costumer} = request
+
+    const balance = getBalance(costumer.statement)
+    if(balance < amount) response.status(400).jsons({error:'insufficient funds'})
+    
+
 })
 app.listen(3001,()=>{
     console.log('My app is running')
