@@ -128,6 +128,12 @@ app.delete('/account',verifyIfExistsAccountCPF,(request, response)=>{
      console.log(costumers)
     return response.status(200).json({message:'Usuário deletado com sucesso !'})
 })
+app.get('/balance',verifyIfExistsAccountCPF,(request, response)=>{
+    const {costumer}= request
+    const balance = getBalance(costumer.statement)
+
+    return response.status(200).json(balance)
+})
 app.listen(3001,()=>{
     console.log('My app is running')
 })
