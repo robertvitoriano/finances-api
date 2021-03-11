@@ -122,8 +122,8 @@ app.get('/account',verifyIfExistsAccountCPF,(request, response)=>{
 app.delete('/account',verifyIfExistsAccountCPF,(request, response)=>{
     const {costumer}= request
 
-    const updatedCostumers = costumers.filter((registerCostumer)=>registerCostumer.cpf !==costumer.cpf)
-     console.log(updatedCostumers)
+     costumers.splice(costumer, 1)
+     console.log(costumers)
     return response.status(200).json({message:'Usuário deletado com sucesso !'})
 })
 app.listen(3001,()=>{
