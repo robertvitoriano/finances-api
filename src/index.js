@@ -55,7 +55,7 @@ app.get('/statement',verifyIfExistsAccountCPF,(request, response)=>{
     const costumer = request.costumer
     const balance = getBalance(costumer.statement)
 
-    return response.status(200).json({tatement:costumer.statement, balance})
+    return response.status(200).json({statement:costumer.statement, balance})
 })
 app.post('/deposit',verifyIfExistsAccountCPF,(request, response)=>{
     const { description, amount } = request.body
