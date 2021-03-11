@@ -119,6 +119,13 @@ app.get('/account',verifyIfExistsAccountCPF,(request, response)=>{
   
     return response.status(200).json(costumer)
 })
+app.delete('/account',verifyIfExistsAccountCPF,(request, response)=>{
+    const {costumer}= request
+
+    const updatedCostumers = costumers.filter((registerCostumer)=>registerCostumer.cpf !==costumer.cpf)
+     console.log(updatedCostumers)
+    return response.status(200).json({message:'Usuário deletado com sucesso !'})
+})
 app.listen(3001,()=>{
     console.log('My app is running')
 })
