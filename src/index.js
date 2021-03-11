@@ -116,11 +116,13 @@ app.put('/account',verifyIfExistsAccountCPF,(request, response)=>{
 
 app.get('/account',verifyIfExistsAccountCPF,(request, response)=>{
     const {costumer}= request
-  
+    const {cpf}= request.body
+
     return response.status(200).json(costumer)
 })
 app.delete('/account',verifyIfExistsAccountCPF,(request, response)=>{
     const {costumer}= request
+    const {cpf}= request.body
 
      costumers.splice(costumer, 1)
      console.log(costumers)
