@@ -91,8 +91,18 @@ app.post('/withdraw',verifyIfExistsAccountCPF,(request, response)=>{
     }
     costumer.statement.push(statementOperation)
     return response.status(201).json({costumer, balance})
+})
+app.get('/statement/date',verifyIfExistsAccountCPF,(request, response)=>{
+    const costumer = request.costumer
+    const balance = getBalance(costumer.statement)
+    const {date} = request.query
+    const formattedDate = new Date(date + " 00:00")
 
+    const searchStatement = costumer.statement.filter((statement)=> statement.created_at.toDateString() === new Date(formattedDate).toDateString())
 
+    if(!searchStatement.length) return response.status(404).json({error:'no statement found'})
+
+    return response.status(200).json(searchStatement)
 })
 app.listen(3001,()=>{
     console.log('My app is running')
