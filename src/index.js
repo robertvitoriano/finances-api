@@ -113,6 +113,12 @@ app.put('/account',verifyIfExistsAccountCPF,(request, response)=>{
   
     return response.status(201).json(costumer)
 })
+
+app.get('/account',verifyIfExistsAccountCPF,(request, response)=>{
+    const {costumer}= request
+  
+    return response.status(200).json(costumer)
+})
 app.listen(3001,()=>{
     console.log('My app is running')
 })
